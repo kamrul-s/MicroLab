@@ -1,0 +1,58 @@
+.MODEL SMALL
+
+
+.STACK 100H
+
+
+.DATA
+    CR EQU 0DH
+    LF EQU 0AH
+    MSG1 DB 'ENTER A UPPER CASE LETTER: $'
+    MSG2 DB CR, LF, 'IN LOWER CASE THE PRIVIOUS LETTER IS: $'
+    MSG3 DB CR, LF, 'THE ONEs COMPLIMENT IS: $'
+    CHAR DB ?
+    CHAR2 DB ?
+    
+.CODE
+
+MAIN PROC
+	;DATA SEGMENT INITIALIZATION
+    MOV AX, @DATA
+    MOV DS, AX
+        
+    LEA DX, MSG1
+    MOV AH, 9
+    INT 21H
+    
+    MOV AH, 1
+    INT 21H
+    MOV CHAR2, AL 
+    ADD AL, 31
+    MOV CHAR, AL
+    
+    LEA DX, MSG2
+    MOV AH, 9
+    INT 21H
+    
+    MOV AH, 2
+    MOV DL, CHAR
+    INT 21H
+    
+    NEG CHAR2
+    SUB CHAR2,1
+    
+    LEA DX, MSG3
+    MOV AH, 9
+    INT 21H
+    
+    MOV AH, 2
+    MOV DL, CHAR2
+    INT 21H
+    
+    
+    ;DOS EXIT
+    MOV AH, 4CH
+    INT 21H
+
+MAIN ENDP
+END MAIN
